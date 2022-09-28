@@ -29,9 +29,14 @@ public class UserDAOService {
 	}
 	
 	public User findOne(Integer id) {
-		User user = users.stream().filter(a -> a.getId().equals(id)).findFirst().get();
+		User user = users.stream().filter(a -> a.getId().equals(id)).findFirst().orElse(null);
 		
 		return user;
+	}
+	
+	
+	public void deleteByIdOne(Integer id) {
+		users.removeIf(us -> us.getId().equals(id));
 	}
 	
 	
