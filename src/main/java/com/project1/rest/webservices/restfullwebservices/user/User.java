@@ -1,12 +1,15 @@
 package com.project1.rest.webservices.restfullwebservices.user;
 
 import java.time.LocalDate;
+import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 
@@ -17,10 +20,17 @@ public class User {
 	@GeneratedValue
 	private Integer id;
 	
+	@Size(min = 2, message = "Name should have at least 2 characters")
+	//@JsonProperty("user_name")
 	private String name;
 	
+	@Past(message = "Birth date should be in the past")
+	//@JsonProperty("birth_date")
 	private LocalDate birthDate;
 
+	@OneToMany(mappedBy = "user")
+	@JsonIgnore
+	private List<Post> posts;
 	
 	public User() {
 		// TODO Auto-generated constructor stub
@@ -44,8 +54,6 @@ public class User {
 		this.id = id;
 	}
 
-	@Size(min = 2, message = "Name should have at least 2 characters")
-	//@JsonProperty("user_name")
 	public String getName() {
 		return name;
 	}
@@ -54,8 +62,6 @@ public class User {
 		this.name = name;
 	}
 	
-	@Past(message = "Birth date should be in the past")
-	//@JsonProperty("birth_date")
 	public LocalDate getBirthDate() {
 		return birthDate;
 	}
@@ -64,7 +70,15 @@ public class User {
 		this.birthDate = birthDate;
 	}
 
+	public List<Post> getPosts() {
+		return posts;
+	}
 
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
+	}
+	
+	
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", name=" + name + ", birthDate=" + birthDate + "]";
